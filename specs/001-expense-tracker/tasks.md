@@ -8,10 +8,10 @@ description: "Story-ordered implementation tasks for the Personal Expense Tracke
 
 **Prerequisites**: `plan.md`, `spec.md`, `research.md`, `data-model.md`, and `contracts/`
 
-**Tests**: The specification requires automated tests, but tests and `.harness/` are
-owner-supplied and immutable. Tasks may run the supplied FR-ID tests read-only; they MUST
-NOT create, edit, delete, or skip tests or change anything under `.harness/`. Task T001
-blocks implementation if the required user-supplied test suite or tools are unavailable.
+**Tests**: The user explicitly authorized initial unit and contract test creation for this
+run. These tests were created before an integrity lock exists. Do not edit, rename, delete,
+or skip tests after they are locked, and never change anything under `.harness/` or the
+user-supplied configuration files.
 
 **Task traceability**: Every task description lists the FR IDs it covers. NFR IDs are
 included where applicable.
@@ -26,8 +26,8 @@ included where applicable.
 
 **Purpose**: Confirm owner-supplied tooling and establish only the application shell.
 
-- [ ] T001 Confirm that `package.json`, `eslint.config.mjs`, `vitest.config.mjs`, `.harness/`, and the immutable FR-ID test suite under `tests/` are supplied and identify their documented commands; make no changes to those paths and stop for owner input if any required prerequisite is absent (FR-001–FR-014).
-- [ ] T002 Create the no-build application shell in `index.html`, `src/main.js`, and `src/styles.css`, using a native ES-module entry point and no framework or generated configuration (FR-001, FR-005, FR-011; NFR-001, NFR-002, NFR-003).
+- [X] T001 Confirm that `package.json`, `eslint.config.mjs`, `vitest.config.mjs`, and `.harness/` are supplied and identify their documented commands; create initial unit and contract tests under `tests/` for the validation, query, and storage requirements only as explicitly authorized for this run and before the harness integrity lock; do not change configuration or harness files (FR-002, FR-003, FR-004, FR-005, FR-006, FR-009, FR-010, FR-011, FR-012, FR-014).
+- [X] T002 Create the no-build application shell in `index.html`, `src/main.js`, and `src/styles.css`, using a native ES-module entry point and no framework or generated configuration (FR-001, FR-005, FR-011; NFR-001, NFR-002, NFR-003).
 
 **Checkpoint**: Owner-provided test and gate inputs are present, and the static application shell exists.
 
@@ -56,7 +56,7 @@ included where applicable.
 - [ ] T006 [P] [US1] Implement add/list orchestration in `src/application/expense-controller.js`: validate input, construct a candidate record, persist before committing state, and expose field errors or storage failures without changing prior state (FR-001, FR-002, FR-003, FR-004, FR-005, FR-006, FR-010, FR-013, FR-014).
 - [ ] T007 [P] [US1] Render the expense form, saved rows, field messages, first-run empty state, and listed/category totals in `src/ui/render.js`; insert descriptions and errors only as text via safe DOM APIs (FR-001, FR-005, FR-006, FR-010, FR-011; NFR-003).
 - [ ] T008 [US1] Bind add-form events and compose the controller, repository, and renderer in `src/ui/bind-events.js` and `src/main.js`; prevent invalid submissions from reaching storage and update the visible list only after persistence succeeds (FR-001, FR-002, FR-003, FR-004, FR-005, FR-006, FR-010, FR-011, FR-013, FR-014).
-- [ ] T009 [US1] Run the owner-supplied tests read-only for add, amount/category/date/description validation, ordering, totals, and no-save behavior; do not change `tests/` or `.harness/` (FR-001, FR-002, FR-003, FR-004, FR-005, FR-006, FR-010, FR-013).
+- [ ] T009 [US1] Run the test suite read-only for add, amount/category/date/description validation, ordering, totals, and no-save behavior; do not change `tests/` or `.harness/` (FR-001, FR-002, FR-003, FR-004, FR-005, FR-006, FR-010, FR-013).
 
 **Checkpoint**: A user can add and review expenses; failed validation or persistence does not commit a new row.
 
@@ -72,7 +72,7 @@ included where applicable.
 
 - [ ] T010 [P] [US2] Add edit and delete use cases to `src/application/expense-controller.js`; edits preserve record identity and creation order, while confirmed deletes persist the candidate collection before committing it (FR-007, FR-008, FR-010, FR-013, FR-014).
 - [ ] T011 [P] [US2] Add edit-form population/submission and a deletion confirmation flow in `src/ui/render.js` and `src/ui/bind-events.js`; cancellation is a no-op, and validation or storage errors leave the displayed record unchanged (FR-007, FR-008, FR-013, FR-014).
-- [ ] T012 [US2] Run the owner-supplied edit, validation, cancel-delete, confirm-delete, and failed-write tests read-only; do not change `tests/` or `.harness/` (FR-007, FR-008, FR-013, FR-014).
+- [ ] T012 [US2] Run the edit, validation, cancel-delete, confirm-delete, and failed-write tests read-only; do not change `tests/` or `.harness/` (FR-007, FR-008, FR-013, FR-014).
 
 **Checkpoint**: Edits and deletions are independently testable and preserve prior data on rejection or cancellation.
 
@@ -87,7 +87,7 @@ included where applicable.
 ### Implementation
 
 - [ ] T013 [US4] Initialize the application from the repository in `src/application/expense-controller.js`, `src/main.js`, and `src/ui/render.js`; restore valid records, distinguish unreadable data from first-run empty state, show recovery errors, and block mutations until data is readable (FR-011, FR-012, FR-014).
-- [ ] T014 [US4] Run the owner-supplied reload/restart, corrupt-data, unavailable-storage, and quota-failure tests read-only; do not change `tests/` or `.harness/` (FR-012, FR-014).
+- [ ] T014 [US4] Run the reload/restart, corrupt-data, unavailable-storage, and quota-failure tests read-only; do not change `tests/` or `.harness/` (FR-012, FR-014).
 
 **Checkpoint**: Same-profile records survive reload; corrupt or inaccessible storage is never silently reset or overwritten.
 
@@ -103,7 +103,7 @@ included where applicable.
 
 - [ ] T015 [P] [US3] Add category/month filter state and derived-list updates to `src/application/expense-controller.js`; clear one filter without clearing the other and calculate totals from records matching both filters (FR-009, FR-010, FR-011).
 - [ ] T016 [P] [US3] Add category and `YYYY-MM` filter controls, clear-filter actions, and a distinct no-match state in `src/ui/render.js` and `src/ui/bind-events.js` (FR-009, FR-010, FR-011).
-- [ ] T017 [US3] Run the owner-supplied category/month combination, filter-clearing, no-match, and filtered-total tests read-only; do not change `tests/` or `.harness/` (FR-009, FR-010, FR-011).
+- [ ] T017 [US3] Run the category/month combination, filter-clearing, no-match, and filtered-total tests read-only; do not change `tests/` or `.harness/` (FR-009, FR-010, FR-011).
 
 **Checkpoint**: Filters compose with AND semantics and all displayed totals reflect only the visible subset.
 
@@ -181,9 +181,10 @@ because an add/list-only session would not satisfy FR-012.
 ## Notes
 
 - Every task names its FR coverage and exact source/config/test path relevant to the action.
-- Tests and `.harness/` are immutable: run the owner-supplied checks only; never edit, delete,
-  skip, or create test files, and never modify anything under `.harness/`.
-- If owner-supplied FR-ID tests are missing, stop at T001 and request them rather than
-  authoring tests.
+- The initial unit and contract tests were explicitly authorized for this run and created
+  before the integrity lock. Later test changes require explicit owner authorization and
+  must not occur after locking; never modify anything under `.harness/`.
+- Test execution is read-only. Missing user-owned configuration or harness prerequisites
+  block implementation at T001.
 - No task generates or changes `package.json`, `eslint.config.mjs`, `vitest.config.mjs`, or
   `.harness/`.
