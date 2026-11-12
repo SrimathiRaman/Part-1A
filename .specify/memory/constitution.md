@@ -1,50 +1,69 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!--
+Sync Impact Report
+Version change: none -> 1.0.0 (initial constitution)
+Modified principles: none
+Added sections: Core Principles; Product and Accessibility Constraints; Quality Gates and Change Controls; Governance
+Removed sections: none
+Follow-up TODOs: Confirm the original ratification date and replace TODO(RATIFICATION_DATE).
+-->
+
+# Expense Tracker Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Client-Only, Browser-Local Architecture
+The Expense Tracker MUST be a single-page web application implemented with plain HTML, CSS,
+and JavaScript. It MUST NOT use a backend, database, API, or application framework. Expense
+data MUST be saved only in the browser's localStorage. This keeps the application self-contained
+and its data under the user's browser storage.
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+### II. Separation of Concerns
+The application MUST use a modular architecture. Business logic, user interface code, and
+storage access MUST remain separate, with clear responsibilities and interfaces. Changes MUST
+preserve these boundaries rather than introducing unnecessary layers.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### III. Whole-Rupee Data Integrity
+Expense amounts MUST be represented and stored as integer whole rupees. Decimal values MUST
+NOT be accepted as valid expense amounts. Validation MUST enforce this rule before an expense
+is saved.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### IV. Safe Handling of User Input
+The application MUST NOT expose secrets in source code. User-entered text MUST be rendered
+safely as text; application code MUST NOT use `innerHTML` or `eval` to handle or display it.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### V. Simplicity and Verifiable Requirements
+The application MUST favor simple, maintainable solutions over unnecessary complexity. Every
+functional requirement MUST have at least one automated test, and each such test title MUST
+include its requirement ID so coverage can be traced and reviewed.
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+## Product and Accessibility Constraints
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+The interface MUST follow accessibility and responsive design principles. Accessibility and
+responsive behavior are subject to manual review; automated tests do not replace that review.
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+## Quality Gates and Change Controls
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+Every change MUST pass all harness gates before it is considered done. The harness MUST report
+pass for all gates. Required quality thresholds are:
+
+- Lint: zero errors and zero warnings.
+- Security scan: zero findings.
+- Automated tests: all pass.
+- `npm audit`: zero high or critical vulnerabilities.
+
+Coding agents MUST NOT edit, delete, or skip tests, and MUST NOT change the test harness or its
+configuration. If a gate cannot pass without violating these controls, the change MUST remain
+incomplete pending an authorized resolution.
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+This constitution governs application design and change review. Amendments MUST be documented
+in this file and MUST update the version and last-amended date. Versioning MUST follow semantic
+versioning: MAJOR for backward-incompatible governance changes, MINOR for new or materially
+expanded principles or sections, and PATCH for clarifications and non-semantic wording changes.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+Every change MUST be reviewed for compliance with this constitution and the applicable
+requirements. Final approval MUST be an explicit human `ACCEPT` or `REJECT`; automated gate
+results do not substitute for that decision.
+
+**Version**: 1.0.0 | **Ratified**: TODO(RATIFICATION_DATE): original adoption date unknown | **Last Amended**: 2026-11-12
