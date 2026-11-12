@@ -1,12 +1,25 @@
 # Feature Specification: Personal Expense Tracker
 
-**Feature Branch**: Not set
+**Feature Branch**: `001-expense-tracker`
 
 **Created**: 2026-11-12
 
 **Status**: Draft
 
 **Input**: User description: "Build a single page personal Expense Tracker for one user on one browser. User can add an expense with amount, category, date and optional description, see all expenses with newest first, edit an expense, delete an expense after confirmation, filter by category and by month, and see the total of listed expenses and total per category. Data should still be there after reload or browser restart. Invalid input is rejected with a message next to the field and nothing is saved. Show an empty state when there are no expenses. Out of scope: login, sync across devices, multiple currencies, budgets, charts, recurring expenses, import and export. Define user stories, numbered functional requirements, non functional requirements and acceptance criteria in Given/When/Then form with example values so each one can become a pass/fail test. Include the exact validation rules as requirements. Identify assumptions and unresolved questions as [Need Clarification]."
+
+## Clarifications
+
+### Session 2026-11-12
+
+- Q: What is the maximum amount allowed for a single expense in whole rupees? → A: No
+  product-defined cap; reject amounts outside the exact safe-integer range supported by
+  the application.
+- Q: What maximum length should apply to an optional expense description after surrounding
+  whitespace is trimmed? → A: 250 characters after trimming.
+- Q: What should the tracker do if saved expense data is unreadable or a browser storage
+  operation fails because storage is full? → A: Preserve corrupt data, show a recovery
+  error, and block changes; show an error and preserve the prior state after failed writes.
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -104,6 +117,10 @@ profile, and verify the expense and totals remain.
 - Canceling a delete confirmation leaves the selected expense and totals unchanged.
 - Clearing browser site data is outside the persistence guarantee.
 - Future-dated expenses are rejected; the user's current local calendar date is allowed.
+- Unreadable saved data is not treated as an empty list or overwritten; changes are blocked
+  and a recovery error is shown.
+- A failed storage write shows an error and leaves saved expenses, the visible list, and
+  totals unchanged.
 
 ## Requirements *(mandatory)*
 
@@ -113,11 +130,14 @@ profile, and verify the expense and totals remain.
   date, plus an optional description. A successful add MUST display the saved values and
   update the list and totals.
 - **FR-002**: The amount MUST be present, contain only decimal digits after surrounding
-  whitespace is trimmed, and represent an integer greater than zero in whole rupees.
+  whitespace is trimmed, and represent an integer from 1 through 9,007,199,254,740,991
+  rupees (inclusive), the safe-integer range supported by the application. This is a
+  representation limit, not a smaller product-defined amount cap.
   Decimal notation, signs, separators, blank input, zero, and negative values MUST be
-  rejected. Leading zeroes MUST be accepted and the displayed amount MUST be normalized
-  (for example, `0012` is saved and displayed as 12 rupees). Invalid input MUST show a
-  message beside the amount field and MUST NOT create or modify a saved expense.
+  rejected. Values above 9,007,199,254,740,991 MUST also be rejected. Leading zeroes
+  MUST be accepted and the displayed amount MUST be normalized (for example, `0012` is
+  saved and displayed as 12 rupees). Invalid input MUST show a message beside the amount
+  field and MUST NOT create or modify a saved expense.
 - **FR-003**: The category MUST be present and MUST be one of the categories offered by
   the application. The fixed categories MUST be Food, Transport, Housing, Utilities,
   Healthcare, Shopping, Education, Entertainment, Travel, and Other. The category value
@@ -130,8 +150,10 @@ profile, and verify the expense and totals remain.
   2026-02-30 or a date later than today MUST be rejected with a message beside the date
   field and MUST NOT create or modify a saved expense.
 - **FR-005**: The description MUST be optional. An absent or whitespace-only description
-  MUST be treated as empty. A supplied description MUST be displayed as user-entered text,
-  not interpreted as markup or executable content.
+  MUST be treated as empty. The trimmed description MUST contain no more than 250 Unicode
+  code points; a longer value MUST be rejected with a message beside the description
+  field and MUST NOT create or modify a saved expense. A supplied description MUST be
+  displayed as user-entered text, not interpreted as markup or executable content.
 - **FR-006**: The user MUST be able to view all saved expenses ordered by date, newest
   first. Expenses with the same date MUST be ordered with the most recently added first.
 - **FR-007**: The user MUST be able to edit a saved expense's amount, category, date, and
@@ -144,8 +166,9 @@ profile, and verify the expense and totals remain.
   year and month of the expense date. Clearing a filter MUST remove only that filter.
 - **FR-010**: The application MUST show the sum of the currently listed expenses and a sum
   for each category represented in the listed results. Totals MUST use whole rupees.
-  With no matching expenses, the listed total MUST be zero and no nonzero category total
-  may be shown.
+  Totals MUST be exact sums, including when a total exceeds the maximum amount allowed
+  for one expense. With no matching expenses, the listed total MUST be zero and no
+  nonzero category total may be shown.
 - **FR-011**: When there are no saved expenses, the application MUST show an empty state
   that explains that there are no expenses yet. When filters yield no results, it MUST
   distinguish the no-match state from the no-expenses-yet state.
@@ -154,6 +177,11 @@ profile, and verify the expense and totals remain.
 - **FR-013**: Invalid add or edit input MUST be rejected with a field-associated message;
   no invalid values may be saved and all prior saved values and totals MUST remain
   unchanged.
+- **FR-014**: If saved expense data is unreadable, the application MUST NOT treat it as
+  empty or overwrite it. The application MUST show a recovery error and block changes
+  while the data remains unreadable. If a storage write fails, the application MUST show
+  an error, report the operation as unsuccessful, and preserve the previously saved
+  expenses and corresponding visible list and totals.
 
 #### Functional Acceptance Tests
 
@@ -170,7 +198,10 @@ and the listed total is 1250 rupees.
 **Given** an amount field, **When** I submit `1250`, **Then** it is accepted as 1250 rupees.
 **When** I submit `0012`, **Then** it is accepted and normalized to 12 rupees.
 **When** I submit each of blank, `0`, `-1`, `1.5`, `1,000`, or `+10`, **Then** each is
-rejected with a message beside the amount field and no expense is saved.
+rejected with a message beside the amount field and no expense is saved. **Given** the
+maximum safe integer amount `9007199254740991`, **When** I submit it, **Then** it is
+accepted; **When** I submit `9007199254740992`, **Then** it is rejected and no expense
+is saved.
 
 ##### FR-003-AT-01 - Require a fixed-list category
 
@@ -189,6 +220,10 @@ is saved.
 
 **Given** a valid expense with no description or a whitespace-only description, **When**
 I save it, **Then** it is accepted with an empty description. **Given** the description
+contains exactly 250 Unicode code points, **When** I save it, **Then** it is accepted.
+**Given** the trimmed description contains 251 Unicode code points, **When** I save or
+edit it, **Then** it is rejected with a message beside the description field, nothing is
+saved, and any previously saved value remains unchanged. **Given** the description
 `<img src=x onerror=alert(1)>`, **When** I save and view it, **Then** it appears only as
 literal text and does not execute or create markup.
 
@@ -223,7 +258,8 @@ Transport expense of 300 rupees on 2026-11-11, **When** I select Food and Novemb
 **Given** listed Food expenses of 1250 and 400 rupees and a listed Transport expense of
 300 rupees, **When** I view totals, **Then** the listed total is 1950 rupees, Food is
 1650 rupees, and Transport is 300 rupees. **Given** no listed expenses, **Then** the
-listed total is zero.
+listed total is zero. **Given** listed expenses of 9007199254740991 and 1 rupee,
+**When** I view totals, **Then** the exact listed total is 9007199254740992 rupees.
 
 ##### FR-011-AT-01 - Show the appropriate empty state
 
@@ -244,6 +280,15 @@ date while adding another expense, **Then** a message appears beside each invali
 no new expense is saved, and the original expense and total remain unchanged. **When** I
 submit the same invalid values while editing, **Then** the original expense remains
 unchanged.
+
+##### FR-014-AT-01 - Preserve expense data on corruption or storage failure
+
+**Given** the saved expense data cannot be read, **When** I open the application,
+**Then** I see a recovery error, no empty-list state is shown, the stored value is not
+overwritten, and add, edit, and delete actions are blocked. **Given** valid saved
+expenses and a storage write failure, **When** I attempt to add, edit, or delete an
+expense, **Then** an error is shown, the operation is reported as unsuccessful, and the
+previous saved expenses, visible list, and totals remain unchanged.
 
 ### Non-Functional Requirements
 
@@ -296,7 +341,7 @@ same device under ordinary use.
 
 ### Measurable Outcomes
 
-- **SC-001**: All FR-001 through FR-013 acceptance tests pass, including the invalid-input
+- **SC-001**: All FR-001 through FR-014 acceptance tests pass, including the invalid-input
   cases and all corresponding no-save/no-change checks.
 - **SC-002**: In a 1,000-expense data set, add, edit, filter, and total updates each finish
   within one second on the same device under ordinary use.
@@ -311,13 +356,14 @@ same device under ordinary use.
 - The application serves one user in one browser profile; it does not provide sign-in or
   synchronize data between browsers or devices.
 - All amounts are in rupees. Multiple currencies and decimal amounts are out of scope.
-- An amount is valid only when it is a positive integer; surrounding whitespace is
-  ignored, and leading zeroes are normalized.
+- An amount is valid only when it is a positive safe integer in rupees from 1 through
+  9,007,199,254,740,991; surrounding whitespace is ignored, and leading zeroes are
+  normalized. No smaller product-defined cap applies.
 - The available categories are Food, Transport, Housing, Utilities, Healthcare, Shopping,
   Education, Entertainment, Travel, and Other; the user cannot add or manage categories.
 - Expense dates later than the user's current local calendar date are invalid.
 - Descriptions are optional, and whitespace-only descriptions are equivalent to an
-  omitted description.
+  omitted description. The trimmed description is limited to 250 Unicode code points.
 - Category and month filters combine using AND semantics, and totals are calculated over
   the currently listed results.
 - Expenses sharing a date are ordered by creation time, newest first.
