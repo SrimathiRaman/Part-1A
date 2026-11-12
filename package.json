@@ -1,0 +1,22 @@
+{
+  "name": "expense-tracker-part-1a",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "npx serve src",
+    "lint": "eslint src tests",
+    "test": "vitest run",
+    "harness": "node .harness/run-harness.mjs",
+    "harness:lock": "node .harness/run-harness.mjs --lock"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.14.0",
+    "eslint-plugin-no-unsanitized": "^4.1.5",
+    "eslint-plugin-security": "^4.2.1",
+    "globals": "^17.14.0",
+    "jsdom": "^31.0.0",
+    "vitest": "^5.1.0"
+  }
+}
