@@ -1,0 +1,14 @@
+{
+  "lockedAt": "2026-11-12T08:47:02.103Z",
+  "files": {
+    ".harness/eslint.security.config.mjs": "1e37b6478a6788f4665be817923e9e59b72a4fd1c0121d1faa8299cb4957adc2",
+    ".harness/feedforward/harness-rules.md": "3663bcd43b43b9d4e6dcd3fbf83e6ab5a95e0654485dcb81ee16d74be70ce815",
+    ".harness/feedforward/style-guide.md": "1b31a3441fc34bfd6522c91f26be481bacc00148ce6b405904456e9a1c48e436",
+    ".harness/run-harness.mjs": "54c303b374f61d140d275c2b124bedf0370ddd32fd59c41c892eead46335db95",
+    "eslint.config.mjs": "d3a32739eb97e7d217a550a13fea2bf1c4d8b1965fe4cb51afc3498ccbc6f3ff",
+    "tests/contract/expense-repository.test.js": "d8741b7c947cf17fc9575e511330a448d25c0f460649403b3e787a8cc30a40f1",
+    "tests/unit/expense-queries.test.js": "0a4517e6171b82657c61cb47876625fc3b41a8fce9d0c35e4083fe8e3d6d184e",
+    "tests/unit/expense-validation.test.js": "757687543feb7425988134416c870ec3ec894a34840cf78690366455cff52060",
+    "vitest.config.mjs": "c4c60f3e131d27ecf4ea396af8eec5722e2157a509e218fa24119eb54f5022bf"
+  }
+}
