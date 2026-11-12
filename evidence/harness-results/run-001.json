@@ -1,0 +1,87 @@
+{
+  "run": "001",
+  "checkedAt": "2026-11-12T09:04:39.514Z",
+  "node": "v26.13.0",
+  "result": "FAIL",
+  "gates": [
+    {
+      "gate": "G0-integrity",
+      "passed": true,
+      "findings": []
+    },
+    {
+      "gate": "G1-lint",
+      "passed": false,
+      "exitCode": 1,
+      "findings": [
+        {
+          "file": "src/storage/expense-repository.js",
+          "line": 16,
+          "rule": "complexity",
+          "expected": "No violation of complexity",
+          "observed": "Function 'isValidRecord' has a complexity of 14. Maximum allowed is 10."
+        }
+      ]
+    },
+    {
+      "gate": "G2-security",
+      "passed": false,
+      "findings": [
+        {
+          "file": "src/application/expense-controller.js",
+          "line": 199,
+          "rule": "security/detect-object-injection",
+          "expected": "No violation of security/detect-object-injection",
+          "observed": "Generic Object Injection Sink"
+        },
+        {
+          "file": "src/application/expense-controller.js",
+          "line": 209,
+          "rule": "security/detect-object-injection",
+          "expected": "No violation of security/detect-object-injection",
+          "observed": "Generic Object Injection Sink"
+        }
+      ]
+    },
+    {
+      "gate": "G3-tests",
+      "passed": false,
+      "exitCode": 1,
+      "totals": {
+        "total": 39,
+        "passed": 35,
+        "failed": 4
+      },
+      "findings": [
+        {
+          "file": "tests/unit/expense-queries.test.js",
+          "test": "expense queries FR-006: sorts by date newest first and then by creation time",
+          "rule": "TEST_FAILED",
+          "expected": "Assertion holds (see test title for the requirement ID)",
+          "observed": "AssertionError: expected [ …(5) ] to strictly equal [ …(5) ]\n    at C:/Users/Ramprasath/Documents/VSCode Project/Assignment-1/Part-1A/tests/unit/expense-queries.test.js:41:35"
+        },
+        {
+          "file": "tests/unit/expense-queries.test.js",
+          "test": "expense queries FR-009: clearing category retains the November 2026 filter",
+          "rule": "TEST_FAILED",
+          "expected": "Assertion holds (see test title for the requirement ID)",
+          "observed": "AssertionError: expected [] to strictly equal [ { id: 'food-november', …(5) }, …(1) ]\n    at C:/Users/Ramprasath/Documents/VSCode Project/Assignment-1/Part-1A/tests/unit/expense-queries.test.js:57:76"
+        },
+        {
+          "file": "tests/unit/expense-queries.test.js",
+          "test": "expense queries FR-010: calculates listed and per-category whole-rupee totals exactly",
+          "rule": "TEST_FAILED",
+          "expected": "Assertion holds (see test title for the requirement ID)",
+          "observed": "AssertionError: expected { total: 1950n, byCategory: { …(2) } } to strictly equal { listed: 1950n, byCategory: { …(2) } }\n    at C:/Users/Ramprasath/Documents/VSCode Project/Assignment-1/Part-1A/tests/unit/expense-queries.test.js:64:39"
+        },
+        {
+          "file": "tests/unit/expense-queries.test.js",
+          "test": "expense queries FR-010: returns zero for no listed expenses and preserves exact large sums",
+          "rule": "TEST_FAILED",
+          "expected": "Assertion holds (see test title for the requirement ID)",
+          "observed": "AssertionError: expected { total: 0n, byCategory: {} } to strictly equal { listed: 0n, byCategory: {} }\n    at C:/Users/Ramprasath/Documents/VSCode Project/Assignment-1/Part-1A/tests/unit/expense-queries.test.js:74:33"
+        }
+      ]
+    }
+  ]
+}

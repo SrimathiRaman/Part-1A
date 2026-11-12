@@ -13,36 +13,41 @@ function hasExactKeys(value, keys) {
     && keys.every((key) => Object.hasOwn(value, key));
 }
 
+function hasValidId(record, ids) {
+  return typeof record.id === 'string' && record.id.length > 0 && !ids.has(record.id);
+}
+
+function hasValidAmount(record) {
+  return Number.isSafeInteger(record.amount) && record.amount >= 1;
+}
+
+function hasValidCategory(record) {
+  return typeof record.category === 'string' && CATEGORIES.includes(record.category);
+}
+
+function hasValidDescription(record) {
+  return typeof record.description === 'string'
+    && record.description === record.description.trim()
+    && Array.from(record.description).length <= 250;
+}
+
+function hasValidCreatedAt(record) {
+  return Number.isSafeInteger(record.createdAt) && record.createdAt >= 0;
+}
+
 function isValidRecord(record, ids) {
   if (!hasExactKeys(record, RECORD_KEYS)) {
     return false;
   }
 
-  if (typeof record.id !== 'string' || record.id.length === 0 || ids.has(record.id)) {
-    return false;
-  }
-
-  if (!Number.isSafeInteger(record.amount) || record.amount < 1) {
-    return false;
-  }
-
-  if (typeof record.category !== 'string' || !CATEGORIES.includes(record.category)) {
-    return false;
-  }
-
-  if (!isValidCalendarDate(record.date)) {
-    return false;
-  }
-
-  if (
-    typeof record.description !== 'string'
-    || record.description !== record.description.trim()
-    || Array.from(record.description).length > 250
-  ) {
-    return false;
-  }
-
-  return Number.isSafeInteger(record.createdAt) && record.createdAt >= 0;
+  return [
+    hasValidId(record, ids),
+    hasValidAmount(record),
+    hasValidCategory(record),
+    isValidCalendarDate(record.date),
+    hasValidDescription(record),
+    hasValidCreatedAt(record)
+  ].every(Boolean);
 }
 
 function isValidRecords(records) {

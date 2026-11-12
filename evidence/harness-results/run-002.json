@@ -1,0 +1,43 @@
+{
+  "run": "002",
+  "checkedAt": "2026-11-12T10:38:42.784Z",
+  "node": "v26.13.0",
+  "result": "FAIL",
+  "gates": [
+    {
+      "gate": "G0-integrity",
+      "passed": true,
+      "findings": []
+    },
+    {
+      "gate": "G1-lint",
+      "passed": true,
+      "exitCode": 0,
+      "findings": []
+    },
+    {
+      "gate": "G2-security",
+      "passed": true,
+      "findings": []
+    },
+    {
+      "gate": "G3-tests",
+      "passed": false,
+      "exitCode": 1,
+      "totals": {
+        "total": 39,
+        "passed": 38,
+        "failed": 1
+      },
+      "findings": [
+        {
+          "file": "tests/unit/expense-queries.test.js",
+          "test": "expense queries FR-006: sorts by date newest first and then by creation time",
+          "rule": "TEST_FAILED",
+          "expected": "Assertion holds (see test title for the requirement ID)",
+          "observed": "AssertionError: expected [ …(5) ] to strictly equal [ …(5) ]\n    at C:/Users/Ramprasath/Documents/VSCode Project/Assignment-1/Part-1A/tests/unit/expense-queries.test.js:41:35"
+        }
+      ]
+    }
+  ]
+}

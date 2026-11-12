@@ -196,17 +196,24 @@ function setFilter(context, name, value) {
     return { ok: false, code: 'invalid-filter' };
   }
 
-  context.state.filters[name] = value;
+  if (validCategory) {
+    context.state.filters.category = value;
+  } else {
+    context.state.filters.month = value;
+  }
   context.state.statusMessage = 'Filters updated.';
   updateView(context);
   return { ok: true };
 }
 
 function clearFilter(context, name) {
-  if (name !== 'category' && name !== 'month') {
+  if (name === 'category') {
+    context.state.filters.category = '';
+  } else if (name === 'month') {
+    context.state.filters.month = '';
+  } else {
     return { ok: false, code: 'invalid-filter' };
   }
-  context.state.filters[name] = '';
   context.state.statusMessage = 'Filter cleared.';
   updateView(context);
   return { ok: true };

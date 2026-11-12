@@ -1,0 +1,42 @@
+{
+  "run": "003",
+  "checkedAt": "2026-11-12T10:43:23.848Z",
+  "node": "v26.13.0",
+  "result": "FAIL",
+  "gates": [
+    {
+      "gate": "G0-integrity",
+      "passed": false,
+      "findings": [
+        {
+          "file": "tests/unit/expense-queries.test.js",
+          "rule": "PROTECTED_FILE_CHANGED",
+          "expected": "unchanged since lock",
+          "observed": "file modified"
+        }
+      ]
+    },
+    {
+      "gate": "G1-lint",
+      "passed": true,
+      "exitCode": 0,
+      "findings": []
+    },
+    {
+      "gate": "G2-security",
+      "passed": true,
+      "findings": []
+    },
+    {
+      "gate": "G3-tests",
+      "passed": true,
+      "exitCode": 0,
+      "totals": {
+        "total": 39,
+        "passed": 39,
+        "failed": 0
+      },
+      "findings": []
+    }
+  ]
+}

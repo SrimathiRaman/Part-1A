@@ -1,0 +1,35 @@
+{
+  "run": "004",
+  "checkedAt": "2026-11-12T10:46:49.576Z",
+  "node": "v26.13.0",
+  "result": "PASS",
+  "gates": [
+    {
+      "gate": "G0-integrity",
+      "passed": true,
+      "findings": []
+    },
+    {
+      "gate": "G1-lint",
+      "passed": true,
+      "exitCode": 0,
+      "findings": []
+    },
+    {
+      "gate": "G2-security",
+      "passed": true,
+      "findings": []
+    },
+    {
+      "gate": "G3-tests",
+      "passed": true,
+      "exitCode": 0,
+      "totals": {
+        "total": 39,
+        "passed": 39,
+        "failed": 0
+      },
+      "findings": []
+    }
+  ]
+}

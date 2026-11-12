@@ -181,7 +181,7 @@ function renderErrors(context, errors) {
 }
 
 function renderTotals(context, totals) {
-  context.results.total.textContent = `Listed total: ${formatAmount(totals.total)}`;
+  context.results.total.textContent = `Listed total: ${formatAmount(totals.listed)}`;
   context.results.categoryTotals.replaceChildren();
   for (const [category, total] of Object.entries(totals.byCategory)) {
     context.results.categoryTotals.append(textElement('li', `${category}: ${formatAmount(total)}`));

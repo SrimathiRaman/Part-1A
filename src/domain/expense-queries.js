@@ -14,7 +14,8 @@ export function sortExpenses(records) {
 }
 
 export function filterExpenses(records, filters = {}) {
-  const { category = '', month = '' } = filters;
+  const category = filters.category ?? '';
+  const month = filters.month ?? '';
   return records.filter((record) => (
     (category === '' || record.category === category)
     && (month === '' || record.date.startsWith(month))
@@ -22,14 +23,14 @@ export function filterExpenses(records, filters = {}) {
 }
 
 export function calculateTotals(records) {
-  const byCategory = {};
+  const categoryTotals = new Map();
   let total = 0n;
 
   for (const record of records) {
     const amount = BigInt(record.amount);
     total += amount;
-    byCategory[record.category] = (byCategory[record.category] ?? 0n) + amount;
+    categoryTotals.set(record.category, (categoryTotals.get(record.category) ?? 0n) + amount);
   }
 
-  return { total, byCategory };
+  return { listed: total, byCategory: Object.fromEntries(categoryTotals) };
 }

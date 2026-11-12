@@ -35,7 +35,7 @@ const expenses = [
 describe('expense queries', () => {
   it('FR-006: sorts by date newest first and then by creation time', () => {
     const sameDateEarlier = { ...expenses[0], id: 'same-date-earlier', createdAt: 1 };
-    const sameDateLater = { ...expenses[0], id: 'same-date-later', createdAt: 2 };
+    const sameDateLater = { ...expenses[0], id: 'same-date-later', createdAt: 1794312000001 };
     const records = [expenses[0], sameDateEarlier, expenses[1], sameDateLater, expenses[2]];
 
     expect(sortExpenses(records)).toStrictEqual([
