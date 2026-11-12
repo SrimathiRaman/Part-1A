@@ -117,8 +117,9 @@ included where applicable.
 - [ ] T019 Review safe text insertion in `src/ui/render.js` and remove any unsafe rendering path; user text must remain literal and no secrets may be introduced (FR-005, FR-013; NFR-003).
 - [ ] T020 Meet the 1,000-record, one-second update target in `src/domain/expense-queries.js` and `src/ui/render.js` without changing results or weakening requirements; run the supplied performance acceptance check read-only (FR-006, FR-009, FR-010; NFR-004).
 - [ ] T021 Run the complete owner-supplied test suite, ESLint/security rules, `npm audit`, and `.harness/` gates using `specs/001-expense-tracker/quickstart.md`; make no changes to tests, configuration, or `.harness/` and report every gate result (FR-001–FR-014; NFR-001–NFR-004).
+- [ ] T022 Manually complete the browser checks in `specs/001-expense-tracker/quickstart.md` at 320px and 1920px: use keyboard-only operation to add, view, edit, filter, and delete an expense; verify no horizontal page scrolling and confirm labels, focus, and associated field errors; record pass/fail before the final checkpoint (FR-001, FR-006, FR-007, FR-008, FR-009, FR-013; NFR-001, NFR-002).
 
-**Final Checkpoint**: All required user stories and quality gates pass; human review records explicit `ACCEPT` or `REJECT`.
+**Final Checkpoint**: All required user stories, automated quality gates, and manual accessibility/responsive checks pass; human review records explicit `ACCEPT` or `REJECT`.
 
 ---
 
@@ -133,7 +134,7 @@ included where applicable.
 - **User stories**: US1 is the first independent increment. US2, US4, and US3 depend on US1.
   Execute them in this plan order because they extend shared controller/UI files; the final
   story order respects the specified P1-before-P2 priorities.
-- **Polish (Phase 7)**: Depends on all four user stories.
+- **Polish (Phase 7)**: Depends on all four user stories. Complete T022 after the automated gates in T021 and before the final checkpoint.
 
 ### User Story Dependencies
 
@@ -175,6 +176,7 @@ because an add/list-only session would not satisfy FR-012.
 4. Add US4 reload/recovery behavior and re-run persistence tests.
 5. Add US3 filters and filtered totals.
 6. Complete cross-cutting accessibility, responsive, security, performance, and full-gate checks.
+7. Perform and record the manual browser review in T022 before the final checkpoint.
 
 ## Notes
 
