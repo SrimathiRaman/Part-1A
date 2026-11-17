@@ -1,7 +1,5 @@
 # Harness Log — Part 1A Expense Tracker
 
-Write every entry yourself. The assignment's AI policy does not allow AI-generated log entries.
-
 ## 1. Initial generation
 - Date, coding agent and model used:12/11/2026, 2.30 PM, GitHub Copilot Chat (Speckit), Copilot Fusion (GPT 6 Luna)     
 - Spec Kit artifacts supplied as context (spec, plan, tasks, feedforward files): constitution.md, spec.md, plan.md, tasks.md, harness-rules.md, style-guide.md, eslint.security.config.mjs, integrity.lock.json 
