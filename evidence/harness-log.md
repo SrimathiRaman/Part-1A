@@ -11,7 +11,7 @@
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 001 | 2026-11-12 09:04:39.514|PASS |FAIL |FAIL |FAIL |FAIL | evidence/harness-results/run-001.json |
 | 002 | 2026-11-12 10:38:42.784|PASS |PASS |PASS |FAIL |FAIL | evidence/harness-results/run-002.json |
-| 003 | 2026-11-12 10:43:23.848||FAIL |PASS |PASS |PASS |FAIL | evidence/harness-results/run-003.json |
+| 003 | 2026-11-12 10:43:23.848|FAIL |PASS |PASS |PASS |FAIL | evidence/harness-results/run-003.json |
 | 004 | 2026-11-12 10:46:49.576|PASS |PASS |PASS |PASS |PASS | evidence/harness-results/run-004.json |
 | 005 | 2026-11-12 10:58:52.656|PASS |PASS  |PASS |PASS |PASS | evidence/harness-results/run-005.json |
 | 006 | 2026-11-12 11:16:32.774|PASS |PASS  |PASS |PASS |PASS | evidence/harness-results/run-006.json |
